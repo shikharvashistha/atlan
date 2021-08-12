@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"database/sql"
 	_"github.com/go-sql-driver/mysql"
-	g "https://github.com/serpapi/google-search-results-golang"
+	g "github.com/serpapi/google-search-results-golang"
 )
 
 type User struct {
@@ -43,7 +43,7 @@ func main(){
 			"q": "Slangs",
 			"location": user.Location,
 		}
-		query := NewGoogleSearch(parameter, apikey)//we need to pass the api key
+		query := g.NewGoogleSearch(parameter, apikey)//we need to pass the api key
 		res, err := query.json()
 		if err != nil {
 			panic(err.Error())
