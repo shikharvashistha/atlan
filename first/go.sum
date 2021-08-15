@@ -1,4 +1,0 @@
-github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfCHuOE=
-github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
-github.com/serpapi/google-search-results-golang v0.0.0-20200815030216-632c97dac1ab h1:3eHXUAA9m4yMWosIGyyKYQ/wPIcbdZwAVBjzUulAJ6E=
-github.com/serpapi/google-search-results-golang v0.0.0-20200815030216-632c97dac1ab/go.mod h1:Rt9zVUUUOOuFaDs/VkZH3xgPmepDvY64/y9K4BNh+Os=

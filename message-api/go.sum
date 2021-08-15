@@ -1,0 +1,4 @@
+github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfCHuOE=
+github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
+github.com/leozz37/hare v0.4.1 h1:QA527KCKssM5ejANN4wsrO8MEsPJ8eh85tQFeKoWwTI=
+github.com/leozz37/hare v0.4.1/go.mod h1:JYQLDUa0t74RJuwxMnsKzUBo/6nKNoyYXhw2jsooYIs=
