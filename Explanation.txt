@@ -1,0 +1,159 @@
+Hello I'm Shikhar Vashistha, 
+
+As Atlan loves open-source, therefore I've tried to include packages and frameworks that are open-source in my task.
+
+Existing Approaches for "slangs-api"
+
+1. Store and Search
+
+If we store the slangs for each possible region in mongodB database, we could use Array.filter method in JavaScript to filter out needed things
+
+async/await could be used to modularize the code
+
+ postRouter.get('/search-post', postCtr.searchPost);
+
+ const postUtils = require('./postUtils');
+
+const postController = {};
+
+postController.searchPost = async (req, res) => {
+  try {
+    const { title } = req.query;
+    const result = await postUtils.searchPost(title);
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(err.code).json({ error: err.error });
+  }
+};
+
+module.exports = postController;
+
+
+const Post = require('./postModel');
+
+const postUtils = {};
+
+postUtils.searchPost = async (title) => {
+  try {
+    let result = [];
+    if(title){
+      // Even you can perform regex in your search 
+      result = await Post.find({ title: title });
+    }
+     return result;
+  } catch (err) {
+    const errorObj = { code: 500, error: 'Internal server error' }; // It can be dynamic
+    throw errorObj;
+  }
+};
+
+module.exports = postUtils;
+
+const mongoose = require('mongoose');
+
+const postSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
+  // Your fields ...
+}, { collection: 'post', timestamps: true });
+
+const post = mongoose.model('post', postSchema);
+
+module.exports = post;
+
+Cons: It could cause overhaul at database and we couldn't make our system latent and unified
+
+2. Directly searching (What I've done)
+
+Using an API(Open Source) at backend could be a way out to deal with the issue. We could be used to display the search result directly and is more efficient and productive as far as the use case is concerned
+
+parameter :=map[string]string{
+                        "q": "Slangs",
+                        "location": user.Location,
+                }
+I've created a parameter map to get the https search request using the current user location stored in database(sql).
+
+What it does is it uses google search engine at backend to search for the parameter q and parses the HTML messy response and in turn returns the JSON response and it could be formatted as per the given parameters.
+
+It executes the http GET request against SerpAPI(scrape google search result) and returns the JSON response as per the parameters mentioned
+
+Pros: Does Not cause overhaul at backend and is failsafe and unified.
+
+Cons: Depends on external API call.
+This could be solved if we use Atlan's API instead of Serp
+
+3. Could've stored the search result as a JSON response
+
+This method is same as the first but we're storing the results of slangs as JSON
+
+Cons: Dosen't solves the problem of a middleman(the database used) and is not as efficient as the second method
+
+
+Existing Approaches for "validation-api"(PUT request)
+
+There are several ways to validate the http request
+
+1. Storing and filtering out the results based on filters
+We could use the same method applied for the slang-api to store the returned data and filter it out using the available filters in language
+
+Cons: As filtering data depends upon the language used so it isn't the best way of doing it
+
+
+2. Returning the responses and filtering out on the way(Not returning the unnecessary data)(My approach)
+
+What we can do is return the filtered out responses which in turn does not cause an overhaul at backend and is the most unified way of doing the same.
+
+rules := govalidator.MapData{// Define the rules for the struct
+                user.Name: []string{"required", "between:3,8"},// Name is required and must be between 3 and 8 characters long.
+                user.Age: []string{"required", "between:18,30"},// Age is required and must be between 18 and 30.
+                user.Mobile: []string{"required", "digits:11"},// Mobile is required and must be 11 digits long.
+        }
+        opts := govalidator.Options
+                Request:         r,
+                Rules:           rules,
+                RequiredDefault: true,
+        }
+What I've done is create a map to define the rules for which I want to validate the returned http/JSON request for which I've assumed name, age and mobile as the parameters then I've defined a struct to provide a separate definition to the validation so that it can't get confused b/w the the mapped data and the source of data in which I've used the rules defined in map previously and initialize a new struct to validate the data and mapping them to the desired values
+
+Pros: Format of data could be changed after validation too.
+      Failsafe and doesn't depend on power cuts etc.
+
+
+3. Use external filters to filter out our data on the way
+This is costly and we need to use an external software/service to achieve it.
+
+4. Use some software to remove invalid responses(Excel, sheets)
+This could be a way out but due to it's dependency on external software it is not the preferred way out and we need to update our software according to the requirement of that software which can cause problems
+
+
+Existing Approaches for "sheets-api"
+
+The approach I was able to think of was to pull the desired data from the website/collec-form via a GET request and parse it into a JSON format to process it better and use a package xlsx to store and upload it on google sheets which is same as making a offline sheet and uploading it to google sheets but using an API
+
+Cons: excel or related software on local machine is required
+Pros: We could create charts, tables, maps inside of this API too and formatting which is needed could be changed
+
+
+Existing Approaches for "message-api"
+
+
+What came in my mind first is to use bufio based package hare to send the message to a given socket port(could be modified later on) and store the required data as http response and send it over the desired port and listen to the socket at the same time to detect errors in case if there.
+
+Acknowledgement
+
+1. I've also signed up for a collection trial as mentioned in the task and used it to explore it.
+
+
+2. All of my code "works perfectly fine" and for which I've initialized a "private" repository on github with continuous integration which could be accessed as per the request as the task defers creating any public repositories
+
+github.com/shikharvashistha/atlan
+
+
+3. I've also created design specification and benchmarks on the repository for which I'm attaching a cloned version of it herewith
+
+
+4. The git repo contains the design specs for each api, CI testing using golang 1.13.x, 1.14.x and 1.16.x, benchmarks on several amount of data as far as the third party limitations are concerned and the well commented and formatted codebase obviously in golang
+
